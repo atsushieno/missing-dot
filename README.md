@@ -16,19 +16,19 @@ missing-dot does not really aim to cover a lot of .NET framework API. This is th
 We use jitpack for automated packages. Add jitpack as a repository at top level `build.gradke(.kts)`:
 
 ```
-	allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+    allprojects {
+        repositories {
+            ...
+            maven { url 'https://jitpack.io' }
+        }
+    }
 ```
 
 and add this package in the module's `build.gradle(.kts)`, like:
 
 ```
     dependencies {
-        implementation 'dev.atsushieno:missingdot:+' // replace + with the actual version
+        implementation 'dev.atsushieno.missing-dot:missingdot:+' // replace + with the actual version
     }
 ```
 
