@@ -27,8 +27,7 @@ jobs:
         SIGNING_SECRET_KEY_RING_FILE: ${{ secrets.SIGNING_SECRET_KEY_RING_FILE }}
     - name: rewrite build.gradle to require signing
       run: |
-        sed -i "s/signing {}/signing { sign publishing.publications }/" ktmidi/build.gradle
-        sed -i "s/signing {}/signing { sign publishing.publications }/" ktmidi-jvm-desktop/build.gradle
+        sed -i "s/signing {}/signing { sign publishing.publications }/" missingdot/build.gradle.kts
     - name: publish
       run: ./gradlew --warning-mode all publish dokkaHtml
       env:
