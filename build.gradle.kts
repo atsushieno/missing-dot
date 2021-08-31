@@ -33,3 +33,6 @@ allprojects {
         maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
     }
 }
+
+apply { from("publish-root.gradle") }
+

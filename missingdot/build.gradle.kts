@@ -122,3 +122,51 @@ android {
         }
     }
 }
+
+afterEvaluate {
+
+    val javadocJar by tasks.registering(Jar::class) {
+        archiveClassifier.set("javadoc")
+    }
+
+    publishing {
+        publications.withType<MavenPublication> {
+            artifact(javadocJar)
+            pom {
+                name.set("missing-dot")
+                description.set("a migration helper library from .NET to Kotlin MPP")
+                url.set("https://github.com/atsushieno/missing-dot")
+                scm {
+                    url.set("https://github.com/atsushieno/missing-dot")
+                }
+                licenses {
+                    license {
+                        name.set("the MIT License")
+                        url.set("https://github.com/atsushieno/missing-dot/blob/main/LICENSE")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("atsushieno")
+                        name.set("Atsushi Eno")
+                        email.set("atsushieno@gmail.com")
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = "OSSRH"
+                url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                credentials {
+                    username = System.getenv("OSSRH_USERNAME")
+                    password = System.getenv("OSSRH_PASSWORD")
+                }
+            }
+        }
+    }
+
+    // keep it as is. It is replaced by CI release builds
+    signing {}
+}
