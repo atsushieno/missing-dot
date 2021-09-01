@@ -39,5 +39,25 @@ class XmlWriterTest {
         xw.close()
         assertEquals("<root><child1>v1</child1><child2>v2</child2><child3>v3</child3></root>", sb.toString(), "xml")
     }
+
+    @Test
+    fun write3() {
+        val sb = StringBuilder()
+        val xw = XmlTextWriter(sb).apply { indent = true }
+        xw.quoteChar = '\''
+        xw.writeStartElement("root")
+        xw.writeElementString("child1", "v1")
+        xw.writeElementString("child2", "v2")
+        xw.writeElementString("child3", "v3")
+        xw.close()
+        val expected = """<root>
+  <child1>v1</child1>
+  <child2>v2</child2>
+  <child3>v3</child3>
+</root>
+"""
+        val actual = sb.toString()
+        assertEquals(expected, actual, "xml")
+    }
 }
 

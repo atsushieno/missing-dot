@@ -10,6 +10,8 @@ class XmlTextWriter(private val output: StringBuilder) : XmlWriter() {
 
     var namespaces = true
     var quoteChar = '"'
+    var indent = false
+    var newLineChars = "\n"
 
     val nsmgr = XmlNamespaceManager()
 
@@ -27,6 +29,17 @@ class XmlTextWriter(private val output: StringBuilder) : XmlWriter() {
     override fun lookupPrefix(ns: String): String? =
         if (!namespaces) null else nsmgr.lookupPrefix(ns)
 
+    private fun writeIndentLine() {
+        if (indent)
+            output.append(newLineChars)
+    }
+
+    private fun writeIndent() {
+        if (indent)
+            for (i in 0 until openTags.size)
+                output.append("  ")
+    }
+
     override fun writeStartDocument(encoding: String?, standalone: Boolean?) {
         if (state != WriteState.Start)
             throw XmlException("XmlTextWriter is not at Start state ($state)")
@@ -38,6 +51,7 @@ class XmlTextWriter(private val output: StringBuilder) : XmlWriter() {
         if (standalone != null)
             output.append(" standalone").append(quoteChar).append(if (standalone) "yes" else "no").append(quoteChar)
         output.append(" ?>")
+        writeIndentLine()
     }
 
     private fun checkState() {
@@ -70,6 +84,7 @@ class XmlTextWriter(private val output: StringBuilder) : XmlWriter() {
         if (internalSubset != null)
             output.append(quoteChar).append(internalSubset).append(quoteChar)
         output.append(">")
+        writeIndentLine()
     }
 
     private fun checkAndCloseStartTagIfOpen(skipTagClosing: Boolean = false) {
@@ -83,13 +98,17 @@ class XmlTextWriter(private val output: StringBuilder) : XmlWriter() {
     }
 
     override fun writeStartElement(prefix: String?, localName: String, namespaceUri: String) {
+        val wasOpenElement = openElement
         checkAndCloseStartTagIfOpen()
+        if (wasOpenElement)
+            writeIndentLine()
 
         if (namespaces && prefix != null && namespaceUri == XmlNamespaceManager.Xmlns2000)
             nsmgr.addNamespace(prefix, namespaceUri)
 
         val actualPrefix = prefix ?: if (namespaces) lookupPrefix(namespaceUri) ?: throw XmlException("No namespace prefix for \"$namespaceUri\" is declared in this XmlTextWriter.") else ""
         val tag = if (actualPrefix.isNotEmpty()) "$actualPrefix:$localName" else localName
+        writeIndent()
         output.append("<").append(tag)
         openTags.add(tag)
 
@@ -105,6 +124,7 @@ class XmlTextWriter(private val output: StringBuilder) : XmlWriter() {
 
             output.append(" />")
             openTags.removeLast()
+            writeIndentLine()
         }
         else
             writeFullEndElement()
@@ -117,6 +137,7 @@ class XmlTextWriter(private val output: StringBuilder) : XmlWriter() {
 
         output.append("</").append(openTags.last()).append('>')
         openTags.removeLast()
+        writeIndentLine()
     }
 
     override fun writeStartAttribute(prefix: String?, localName: String, namespaceUri: String) {
