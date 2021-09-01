@@ -7,6 +7,7 @@ class XmlTextWriter(private val output: StringBuilder) : XmlWriter() {
     private var openAttribute = false
     private var openElement = false
     private val openTags = mutableListOf<String>()
+    private var previousOutputIsIndentLine = false
 
     var namespaces = true
     var quoteChar = '"'
@@ -30,14 +31,17 @@ class XmlTextWriter(private val output: StringBuilder) : XmlWriter() {
         if (!namespaces) null else nsmgr.lookupPrefix(ns)
 
     private fun writeIndentLine() {
-        if (indent)
+        if (indent) {
             output.append(newLineChars)
+            previousOutputIsIndentLine = true
+        }
     }
 
     private fun writeIndent() {
-        if (indent)
+        if (previousOutputIsIndentLine && indent)
             for (i in 0 until openTags.size)
                 output.append("  ")
+        previousOutputIsIndentLine = false
     }
 
     override fun writeStartDocument(encoding: String?, standalone: Boolean?) {
@@ -135,8 +139,9 @@ class XmlTextWriter(private val output: StringBuilder) : XmlWriter() {
         if (openTags.isEmpty())
             throw XmlException("Element is not started in this XmlTextWriter.")
 
-        output.append("</").append(openTags.last()).append('>')
-        openTags.removeLast()
+        val tag = openTags.removeLast()
+        writeIndent()
+        output.append("</").append(tag).append('>')
         writeIndentLine()
     }
 

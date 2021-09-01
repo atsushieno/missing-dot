@@ -41,19 +41,20 @@ class XmlWriterTest {
     }
 
     @Test
-    fun write3() {
+    fun indent() {
         val sb = StringBuilder()
         val xw = XmlTextWriter(sb).apply { indent = true }
         xw.quoteChar = '\''
         xw.writeStartElement("root")
         xw.writeElementString("child1", "v1")
-        xw.writeElementString("child2", "v2")
+        xw.writeStartElement("child2")
         xw.writeElementString("child3", "v3")
         xw.close()
         val expected = """<root>
   <child1>v1</child1>
-  <child2>v2</child2>
-  <child3>v3</child3>
+  <child2>
+    <child3>v3</child3>
+  </child2>
 </root>
 """
         val actual = sb.toString()
