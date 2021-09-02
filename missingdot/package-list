@@ -183,8 +183,10 @@ $dokka.location:dev.atsushieno.missingdot.xml/XmlTextReader/value/#/PointingToDe
 $dokka.location:dev.atsushieno.missingdot.xml/XmlTextWriter///PointingToDeclaration/missingdot/dev.atsushieno.missingdot.xml/-xml-text-writer/index.html
 $dokka.location:dev.atsushieno.missingdot.xml/XmlTextWriter/XmlTextWriter/#kotlin.text.StringBuilder/PointingToDeclaration/missingdot/dev.atsushieno.missingdot.xml/-xml-text-writer/-xml-text-writer.html
 $dokka.location:dev.atsushieno.missingdot.xml/XmlTextWriter/close/#/PointingToDeclaration/missingdot/dev.atsushieno.missingdot.xml/-xml-text-writer/close.html
+$dokka.location:dev.atsushieno.missingdot.xml/XmlTextWriter/indent/#/PointingToDeclaration/missingdot/dev.atsushieno.missingdot.xml/-xml-text-writer/indent.html
 $dokka.location:dev.atsushieno.missingdot.xml/XmlTextWriter/lookupPrefix/#kotlin.String/PointingToDeclaration/missingdot/dev.atsushieno.missingdot.xml/-xml-text-writer/lookup-prefix.html
 $dokka.location:dev.atsushieno.missingdot.xml/XmlTextWriter/namespaces/#/PointingToDeclaration/missingdot/dev.atsushieno.missingdot.xml/-xml-text-writer/namespaces.html
+$dokka.location:dev.atsushieno.missingdot.xml/XmlTextWriter/newLineChars/#/PointingToDeclaration/missingdot/dev.atsushieno.missingdot.xml/-xml-text-writer/new-line-chars.html
 $dokka.location:dev.atsushieno.missingdot.xml/XmlTextWriter/nsmgr/#/PointingToDeclaration/missingdot/dev.atsushieno.missingdot.xml/-xml-text-writer/nsmgr.html
 $dokka.location:dev.atsushieno.missingdot.xml/XmlTextWriter/quoteChar/#/PointingToDeclaration/missingdot/dev.atsushieno.missingdot.xml/-xml-text-writer/quote-char.html
 $dokka.location:dev.atsushieno.missingdot.xml/XmlTextWriter/writeCData/#kotlin.String/PointingToDeclaration/missingdot/dev.atsushieno.missingdot.xml/-xml-text-writer/write-c-data.html
