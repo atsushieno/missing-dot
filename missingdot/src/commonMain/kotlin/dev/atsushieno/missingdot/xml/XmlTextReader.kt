@@ -47,13 +47,23 @@ class XmlTextReader(text: String, baseUri: String? = null) : XmlReader() {
 			}
 		}
 
+		fun isNameStartNoColon(ch: Char) =
+			ch in '0'..'9' || ch in 'a'..'z' || ch in 'A'..'Z' || ch == '_' || ch in '\u00C0'..'\u00D6' ||
+					ch in '\u00D8'..'\u00F6' || ch in '\u00F8'..'\u02FF' || ch in '\u0370'..'\u037D' ||
+					ch in '\u037F'..'\u1FFF' || ch in '\u200C'..'\u200D' || ch in '\u2070'..'\u218F' ||
+					ch in '\u2C00'..'\u2FEF' || ch in '\u3001'..'\uD7FF' || ch in '\uF900'..'\uFDCF' ||
+					ch in '\uFDF0'..'\uFFFD'// || ch in '\u10000'..'\uxEFFFF'
+
+		fun isNameNoColon(ch: Char) = isNameStartNoColon(ch) || ch == '-' || ch == '.' ||
+				ch in '0'..'9' || ch == '\u00B7' || ch in '\u0300'..'\u036F' || ch in '\u203F'..'\u2040'
+
 		var nameBuffer = CharArray(128)
 		fun readName() : String {
 			var pos = 0
 			while (true) {
 				val ch = source.peekChar()
 				// FIXME: full name character validation is missing
-				if (ch in '0'..'9' || ch in 'a'..'z' || ch in 'A'..'Z' || ch >= Char(0x100)) {
+				if (isNameNoColon(ch)) {
 					if (nameBuffer.size == pos)
 						nameBuffer = CharArray(nameBuffer.size * 2).also { nameBuffer.copyInto(it, 0, nameBuffer.size) }
 					nameBuffer[pos++] = source.readChar()

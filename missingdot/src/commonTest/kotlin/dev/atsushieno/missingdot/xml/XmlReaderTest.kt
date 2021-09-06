@@ -205,4 +205,11 @@ class XmlReaderTest {
         xr.read()
         assertNode("text", xr, 1, XmlNodeType.Text, "", "", "", base64)
     }
+
+    @Test
+    fun nameChars() {
+        val xr = XmlTextReader("<pitch7.9 \u00C0\u00D8\u00F8\u02FF\u0370\u037F\u200C\u2070\u2C00\u3001\uF900\uFdF0='' />")
+        xr.read()
+        xr.read()
+    }
 }
