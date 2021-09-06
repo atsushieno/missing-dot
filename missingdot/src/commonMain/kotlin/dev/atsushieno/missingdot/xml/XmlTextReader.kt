@@ -75,7 +75,7 @@ class XmlTextReader(text: String, baseUri: String? = null) : XmlReader() {
 				when (source.peekChar()) {
 					' ', '\t', '\r', '\n' -> {
 						if (valueBuffer.size == pos)
-							valueBuffer = CharArray(valueBuffer.size * 2).also { valueBuffer.copyInto(it, 0, nameBuffer.size) }
+							valueBuffer += CharArray(valueBuffer.size)
 						valueBuffer[pos++] = source.readChar()
 					}
 					else -> break
@@ -92,7 +92,7 @@ class XmlTextReader(text: String, baseUri: String? = null) : XmlReader() {
 			var pos = 0
 			while (true) {
 				if (valueBuffer.size == pos)
-					valueBuffer = CharArray(valueBuffer.size * 2).also { valueBuffer.copyInto(it, 0, nameBuffer.size) }
+					valueBuffer += CharArray(valueBuffer.size)
 				if (source.peekChar() != ch1) {
 					valueBuffer[pos++] = source.readChar()
 				} else {
