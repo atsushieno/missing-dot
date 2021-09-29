@@ -2,6 +2,8 @@ package dev.atsushieno.missingdot.xml
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFails
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -211,5 +213,19 @@ class XmlReaderTest {
         val xr = XmlTextReader("<pitch7.9 \u00C0\u00D8\u00F8\u02FF\u0370\u037F\u200C\u2070\u2C00\u3001\uF900\uFdF0='' />")
         xr.read()
         xr.read()
+    }
+
+    @Test
+    fun unmatchedTags() {
+        val xml = "<root><child>test<child></root>"
+        val xr = XmlTextReader(xml)
+        xr.read() // ->root
+        xr.read() // ->child
+        xr.read() // ->test
+        xr.read() // ->child, not /child
+        assertEquals(2, xr.depth, "child(2).depth")
+        val ex = assertFails { xr.read() } // should raise XmlException.
+        // The error message is not meant to be stable; it is here to check tag name and error location accuracy.
+        assertEquals("Unmatched end tag appeared: expected \"child\", got \"root\" (at 1, 27)", ex.message, "message")
     }
 }

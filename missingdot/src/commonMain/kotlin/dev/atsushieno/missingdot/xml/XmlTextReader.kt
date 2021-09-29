@@ -4,8 +4,8 @@ class XmlTextReader(text: String, baseUri: String? = null) : XmlReader() {
 
 	private class Source(val text: String) : IXmlLineInfo {
 
-		private var line = 0
-		private var column = -1
+		private var line = 1
+		private var column = 1
 
 		override val lineNumber: Int
 			get() = line
@@ -26,7 +26,7 @@ class XmlTextReader(text: String, baseUri: String? = null) : XmlReader() {
 			column++
 			if (text[index] == '\n') {
 				line++
-				column = 0
+				column = 1
 			}
 			return text[index]
 		}
@@ -286,9 +286,19 @@ class XmlTextReader(text: String, baseUri: String? = null) : XmlReader() {
 
 	private fun internalReadEndElement() {
 		nodes.removeLast()
+		val expectedTag = nodes.last() // note that expectedTag properties will be soon overwritten (at readQName()).
+		val expectedPrefix = expectedTag.prefix
+		val expectedLocalName = expectedTag.localName
 
 		reader.expect('/')
+		val line = lineNumber
+		val col = linePosition
 		readQName(currentNode)
+		if (expectedPrefix != currentNode.prefix || expectedLocalName != currentNode.localName) {
+			val expectedTagName = if (expectedPrefix.isEmpty()) expectedLocalName else "$expectedPrefix:$expectedLocalName"
+			val actualTagName = if (currentNode.prefix.isEmpty()) currentNode.localName else "${currentNode.prefix}:${currentNode.localName}"
+			throw XmlException("Unmatched end tag appeared: expected \"$expectedTagName\", got \"$actualTagName\"", null, line, col)
+		}
 		reader.readWhitespaces()
 		reader.expect('>')
 
