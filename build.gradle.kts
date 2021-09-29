@@ -24,7 +24,7 @@ configurations.matching { it.name != "kotlinCompilerPluginClasspath" }.all {
 
 allprojects {
     group = "dev.atsushieno"
-    version = "0.1.4"
+    version = "0.1.5"
 
     repositories {
         mavenLocal()
