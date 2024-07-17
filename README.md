@@ -1,5 +1,7 @@
 # missing-dot: a migration helper library from .NET to Kotlin MPP
 
+![maven repo](https://img.shields.io/maven-central/v/dev.atsushieno/missingdot)
+
 **missing-dot** is a library when you are porting .NET projects to Kotlin multiplatform. It is how we use this library.
 
 ## API coverage
