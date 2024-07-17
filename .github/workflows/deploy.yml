@@ -20,15 +20,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - target: publishIosArm64PublicationToMavenCentralRepository
+          - target: publishIosArm64PublicationToSonatypeRepository
             os: macos-latest
-          - target: publishAndroidReleasePublicationToMavenCentralRepository
+          - target: publishAndroidReleasePublicationToSonatypeRepository
             os: ubuntu-latest
-          - target: publishJvmPublicationToMavenCentralRepository
+          - target: publishJvmPublicationToSonatypeRepository
             os: ubuntu-latest
-          - target: publishLinuxX64PublicationToMavenCentralRepository
+          - target: publishLinuxX64PublicationToSonatypeRepository
             os: ubuntu-latest
-          - target: publishKotlinMultiplatformPublicationToMavenCentralRepository
+          - target: publishKotlinMultiplatformPublicationToSonatypeRepository
             os: ubuntu-latest
     runs-on: ${{ matrix.os }}
     steps:
