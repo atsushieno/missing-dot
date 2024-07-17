@@ -3,7 +3,7 @@ plugins {
 }
 
 allprojects {
-    group = "dev.atsushieno.missingdot"
+    group = "dev.atsushieno"
     version = "0.2.0"
 }
 
