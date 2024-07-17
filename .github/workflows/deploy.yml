@@ -54,9 +54,14 @@ jobs:
       uses: gradle/gradle-build-action@ce999babab2de1c4b649dc15f0ee67e6246c994f
       with:
         arguments: |
-          -PmavenCentralUsername=${{secrets.OSSRH_USERNAME}}
-          -PmavenCentralPassword=${{secrets.OSSRH_PASSWORD}}
-          -PsigningInMemoryKeyId=${{secrets.OSSRH_GPG_SECRET_KEY_ID}}
-          -PsigningInMemoryPassword=${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}
+          closeSonatypeStagingRepository
+          -Psigning.gnupg.passphrase='${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}'
+          -Psigning.gnupg.keyName='${{secrets.OSSRH_GPG_SECRET_KEY_ID}}'
+          -PsonatypeUsername='${{secrets.OSSRH_USERNAME}}'
+          -PsonatypePassword='${{secrets.OSSRH_PASSWORD}}'
+          # -PmavenCentralUsername=${{secrets.OSSRH_USERNAME}}
+          # -PmavenCentralPassword=${{secrets.OSSRH_PASSWORD}}
+          # -PsigningInMemoryKeyId=${{secrets.OSSRH_GPG_SECRET_KEY_ID}}
+          # -PsigningInMemoryPassword=${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}
           ${{ matrix.target }}
 
