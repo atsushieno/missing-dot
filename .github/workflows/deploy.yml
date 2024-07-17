@@ -59,9 +59,5 @@ jobs:
           -Psigning.gnupg.keyName='${{secrets.OSSRH_GPG_SECRET_KEY_ID}}'
           -PsonatypeUsername='${{secrets.OSSRH_USERNAME}}'
           -PsonatypePassword='${{secrets.OSSRH_PASSWORD}}'
-          # -PmavenCentralUsername=${{secrets.OSSRH_USERNAME}}
-          # -PmavenCentralPassword=${{secrets.OSSRH_PASSWORD}}
-          # -PsigningInMemoryKeyId=${{secrets.OSSRH_GPG_SECRET_KEY_ID}}
-          # -PsigningInMemoryPassword=${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}
           ${{ matrix.target }}
 
