@@ -20,15 +20,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - targets: |
-              publishMacosX64PublicationToMavenCentralRepository
-              publishMacosArm64PublicationToMavenCentralRepository
-              publishIosArm64PublicationToMavenCentralRepository
-              publishIosSimulatorArm64PublicationToMavenCentralRepository
-            os: macos-latest
-          - targets: publishIosX64PublicationToMavenCentralRepository
-            os: macos-12
           - targets: publishAllPublicationsToMavenCentralRepository
+            os: macos-latest
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
