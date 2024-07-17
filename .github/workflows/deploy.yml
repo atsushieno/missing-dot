@@ -20,32 +20,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - target: publishMacosX64PublicationToMavenCentralRepository
+          - targets: |
+              publishMacosX64PublicationToMavenCentralRepository
+              publishMacosArm64PublicationToMavenCentralRepository
+              publishIosArm64PublicationToMavenCentralRepository
+              publishIosSimulatorArm64PublicationToMavenCentralRepository
             os: macos-latest
-          - target: publishMacosArm64PublicationToMavenCentralRepository
-            os: macos-latest
-          - target: publishIosArm64PublicationToMavenCentralRepository
-            os: macos-latest
-          - target: publishIosSimulatorArm64PublicationToMavenCentralRepository
-            os: macos-latest
-          - target: publishIosX64PublicationToMavenCentralRepository
+          - targets: publishIosX64PublicationToMavenCentralRepository
             os: macos-12
-          - target: publishAndroidReleasePublicationToMavenCentralRepository
-            os: ubuntu-latest
-          - target: publishJvmPublicationToMavenCentralRepository
-            os: ubuntu-latest
-          - target: publishLinuxX64PublicationToMavenCentralRepository
-            os: ubuntu-latest
-          - target: publishLinuxArm64PublicationToMavenCentralRepository
-            os: ubuntu-latest
-          - target: publishMingwX64PublicationToMavenCentralRepository
-            os: ubuntu-latest
-          - target: publishJsPublicationToMavenCentralRepository
-            os: ubuntu-latest
-          - target: publishWasmJsPublicationToMavenCentralRepository
-            os: ubuntu-latest
-          - target: publishKotlinMultiplatformPublicationToMavenCentralRepository
-            os: ubuntu-latest
+          - targets: publishAllPublicationsToMavenCentralRepository
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
@@ -74,5 +57,4 @@ jobs:
           -PmavenCentralPassword=${{secrets.OSSRH_PASSWORD}}
           -PsigningInMemoryKeyId=${{secrets.OSSRH_GPG_SECRET_KEY_ID}}
           -PsigningInMemoryPassword=${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}
-          ${{ matrix.target }}
-
+          ${{ matrix.targets }}
