@@ -18,13 +18,21 @@ kotlin {
         browser {}
         nodejs {}
     }
-    jvm()
+    jvm {
+        compilations.all {
+            kotlinOptions.jvmTarget = "17"
+        }
+        testRuns["test"].executionTask.configure {
+            useJUnit()
+        }
+    }
     js {
         browser {}
         nodejs {}
     }
     androidTarget {
         publishLibraryVariants("release")
+        @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
