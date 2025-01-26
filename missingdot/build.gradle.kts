@@ -2,6 +2,9 @@ import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.JavadocJar
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -11,7 +14,17 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    jvmToolchain(21)
+    targets.withType<KotlinJvmTarget> {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            // https://jakewharton.com/kotlins-jdk-release-compatibility-flag/
+            freeCompilerArgs.addAll("-Xjdk-release=11", "-jvm-target=11")
+        }
+    }
+
     @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
         moduleName = "missingdot"
@@ -19,9 +32,7 @@ kotlin {
         nodejs {}
     }
     jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "17"
-        }
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
         testRuns["test"].executionTask.configure {
             useJUnit()
         }
@@ -31,11 +42,8 @@ kotlin {
         nodejs {}
     }
     androidTarget {
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
         publishLibraryVariants("release")
-        @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_1_8)
-        }
     }
     iosX64()
     iosArm64()
@@ -61,6 +69,10 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
