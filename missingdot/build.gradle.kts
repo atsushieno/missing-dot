@@ -10,6 +10,9 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
+group = "dev.atsushieno"
+version = "0.2.1.1"
+
 @OptIn(ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     jvmToolchain(21)
