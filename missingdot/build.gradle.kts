@@ -5,7 +5,6 @@ import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    id("module.publication")
     alias(libs.plugins.vanniktech.maven.publish)
     alias(libs.plugins.dokka)
 }
