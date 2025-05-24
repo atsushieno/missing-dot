@@ -49,6 +49,4 @@ jobs:
         java-version: '21'
         distribution: 'jetbrains'
     - name: Build with Gradle
-      run: ./gradlew --warning-mode all build publishAllPublicationsToMavenCentralRepository
-      with:
-        arguments: ${{ matrix.target }}
+      run: ./gradlew --warning-mode all build ${{ matrix.target }}
