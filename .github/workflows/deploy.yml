@@ -32,22 +32,17 @@ jobs:
         path: |
           ~/.konan
         key: ${{ runner.os }}-${{ hashFiles('**/.lock') }}
-    - name: Import GPG key
-      uses: crazy-max/ghaction-import-gpg@v5
-      with:
-        gpg_private_key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-        passphrase: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'jetbrains'
-    - name: Gradle publish
-      uses: gradle/gradle-build-action@ce999babab2de1c4b649dc15f0ee67e6246c994f
+    - name: Publish with Gradle
+      run: ./gradlew --warning-mode all build publishAllPublicationsToMavenCentralRepository
       with:
         arguments: |
-          -PmavenCentralUsername=${{secrets.OSSRH_USERNAME}}
-          -PmavenCentralPassword=${{secrets.OSSRH_PASSWORD}}
-          -PsigningInMemoryKeyId=${{secrets.OSSRH_GPG_SECRET_KEY_ID}}
-          -PsigningInMemoryPassword=${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}
+          -PmavenCentralUsername=${{secrets.MAVEN_CENTRAL_USERNAME}}
+          -PmavenCentralPassword=${{secrets.MAVEN_CENTRAL_PASSWORD}}
+          -PsigningInMemoryKeyId=${{secrets.GPG_KEY_CONTENTS}}
+          -PsigningInMemoryPassword=${{secrets.SIGNING_PASSWORD}}
           ${{ matrix.targets }}

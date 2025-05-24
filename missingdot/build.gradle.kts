@@ -1,10 +1,6 @@
-import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import com.vanniktech.maven.publish.KotlinMultiplatform
-import com.vanniktech.maven.publish.JavadocJar
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.targets.jvm.KotlinJvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -76,10 +72,29 @@ android {
     }
 }
 
+val gitProjectName = "missing-dot"
+val packageName = "missing-dot"
+val packageDescription = "a migration helper library from .NET to Kotlin Multiplatform"
+// my common settings
+val packageUrl = "https://github.com/atsushieno/$gitProjectName"
+val licenseName = "MIT"
+val licenseUrl = "https://github.com/atsushieno/$gitProjectName/blob/main/LICENSE"
+val devId = "atsushieno"
+val devName = "Atsushi Eno"
+val devEmail = "atsushieno@gmail.com"
+
+// Common copy-pasted
 mavenPublishing {
-    configure(KotlinMultiplatform(javadocJar = JavadocJar.Dokka("dokkaHtml")))
-    publishToMavenCentral(SonatypeHost.S01)
-    if (project.hasProperty("mavenCentralUsername") ||
-        System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername") != null)
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+    if (project.hasProperty("mavenCentralUsername") || System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername") != null)
         signAllPublications()
+    coordinates(group.toString(), project.name, version.toString())
+    pom {
+        name.set(packageName)
+        description.set(packageDescription)
+        url.set(packageUrl)
+        scm { url.set(packageUrl) }
+        licenses { license { name.set(licenseName); url.set(licenseUrl) } }
+        developers { developer { id.set(devId); name.set(devName); email.set(devEmail) } }
+    }
 }
